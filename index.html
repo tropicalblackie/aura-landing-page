@@ -12,6 +12,15 @@
 </head>
 <body class="is-loading">
 
+  <!-- Dynamic Island —— live user count -->
+  <div class="dynamic-island-landing" id="dynamic-island-landing" aria-hidden="true">
+    <div class="di-live-dot"></div>
+    <div class="di-live-text">LIVE &nbsp;&middot;&nbsp; <span class="di-live-count" id="di-count">12.847</span> atleti attivi</div>
+  </div>
+
+  <!-- Toast social proof container -->
+  <div id="toasts-landing" aria-live="polite"></div>
+
   <!-- Grain noise overlay -->
   <div class="grain" aria-hidden="true"></div>
 
@@ -112,8 +121,8 @@
             <!-- Weekly streak -->
             <div class="app-streak-label">STREAK SETTIMANALE</div>
             <div class="app-streak">
-              <div class="app-streak-day done"><span>L</span></div>
-              <div class="app-streak-day done"><span>M</span></div>
+              <div class="app-streak-day done"><div class="streak-beam"></div><span>L</span></div>
+              <div class="app-streak-day done"><div class="streak-beam"></div><span>M</span></div>
               <div class="app-streak-day done"><span>M</span></div>
               <div class="app-streak-day today"><span>G</span></div>
               <div class="app-streak-day"><span>V</span></div>
@@ -309,6 +318,31 @@
     </div>
   </section>
 
+  <!-- HEATMAP CALLOUT -->
+  <section id="heatmap-sec" style="padding:0 0 4rem">
+    <div class="container">
+      <div class="heatmap-callout" data-reveal>
+        <div class="heatmap-head">
+          <div class="heatmap-callout-title">Attivit&agrave; ultimi 28 giorni</div>
+          <div class="heatmap-streak-badge">
+            <svg viewBox="0 0 24 32" fill="none" width="14" height="18" aria-hidden="true"><path d="M12 2C8 6 6 10 8 16C6 14 4 16 6 20C8 18 10 20 12 18C14 20 16 18 18 20C20 16 18 14 16 16C18 10 16 6 12 2Z" fill="#f97316"/></svg>
+            <span id="heatmap-streak-txt">12 giorni streak</span>
+          </div>
+        </div>
+        <div class="workout-heatmap" id="workout-heatmap"></div>
+        <div class="heatmap-legend">
+          <span>Meno</span>
+          <div class="hl-cell h0"></div>
+          <div class="hl-cell h1"></div>
+          <div class="hl-cell h2"></div>
+          <div class="hl-cell h3"></div>
+          <div class="hl-cell h4"></div>
+          <span>Pi&ugrave;</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="section-sep" aria-hidden="true"></div>
 
   <!-- HOW IT WORKS -->
@@ -454,7 +488,25 @@
           <a href="#" class="btn-fill magnetic cta-shine-btn">Crea il tuo profilo &rarr;</a>
           <a href="#features" class="btn-ghost">Scopri le funzionalit&agrave;</a>
         </div>
-        <div class="cta-badges" data-reveal>
+        <div class="cta-badge-3d-row" id="cta-3d-badges" data-reveal>
+          <div class="cta-badge-3d-item" id="badge-bronze">
+            <div class="badge-3d bronze">🏋️</div>
+            <span class="cta-badge-3d-lbl">Primo Passo</span>
+          </div>
+          <div class="cta-badge-3d-item" id="badge-silver">
+            <div class="badge-3d silver">💪</div>
+            <span class="cta-badge-3d-lbl">5 Workout</span>
+          </div>
+          <div class="cta-badge-3d-item" id="badge-gold">
+            <div class="badge-3d gold">🔥</div>
+            <span class="cta-badge-3d-lbl">Streak 7gg</span>
+          </div>
+          <div class="cta-badge-3d-item" id="badge-crystal">
+            <div class="badge-3d crystal">⭐</div>
+            <span class="cta-badge-3d-lbl">AURA Elite</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:1.2rem;flex-wrap:wrap" data-reveal>
           <span class="badge-pop-item">&#10003; Sempre gratuito</span>
           <span class="badge-pop-item">&#10003; Nessuna pubblicit&agrave;</span>
           <span class="badge-pop-item">&#10003; Privacy garantita</span>

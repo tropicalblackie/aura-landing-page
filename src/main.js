@@ -440,6 +440,211 @@ function initTicker() {
   // CSS handles it — just ensure paused on hover (CSS handles)
 }
 
+/* ─────────────────────────────────────────
+   DYNAMIC ISLAND
+   ───────────────────────────────────────── */
+function initDynamicIsland() {
+  const island = document.getElementById('dynamic-island-landing');
+  if (!island) return;
+  setTimeout(() => island.classList.add('on'), 900);
+  let count = 12847;
+  const countEl = document.getElementById('di-count');
+  setInterval(() => {
+    count += Math.floor(Math.random() * 5) - 2;
+    count = Math.max(12000, count);
+    if (countEl) countEl.textContent = count.toLocaleString('it-IT');
+  }, 3500);
+}
+
+/* ─────────────────────────────────────────
+   TOAST SOCIAL PROOF
+   ───────────────────────────────────────── */
+function initToastsLanding() {
+  const toasts = [
+    { ico: '🔥', name: 'Marco R.', desc: 'ha completato il suo 200° workout' },
+    { ico: '💪', name: 'Sara T.', desc: 'ha perso 8kg in 12 settimane' },
+    { ico: '⭐', name: 'Luca P.', desc: 'ha raggiunto il Livello 10' },
+    { ico: '🏋️', name: 'Giulia M.', desc: 'ha battuto il suo PR in squat' },
+    { ico: '🎯', name: 'Andrea K.', desc: 'è su una streak di 30 giorni' },
+    { ico: '🥗', name: 'Chiara V.', desc: 'ha seguito il piano dietetico 7 giorni' }
+  ];
+  const container = document.getElementById('toasts-landing');
+  if (!container) return;
+  let idx = 0;
+  function removeToastL(el) {
+    el.classList.remove('in');
+    el.classList.add('out');
+    setTimeout(() => el.remove(), 420);
+  }
+  function showToast() {
+    const data = toasts[idx % toasts.length];
+    idx++;
+    const el = document.createElement('div');
+    el.className = 'toast-l';
+    el.innerHTML = `<span class="toast-l-ico">${data.ico}</span><div class="toast-l-body"><div class="toast-l-name">${data.name}</div><div class="toast-l-desc">${data.desc}</div></div>`;
+    container.appendChild(el);
+    el.addEventListener('click', () => removeToastL(el));
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('in')));
+    setTimeout(() => removeToastL(el), 5000);
+  }
+  setTimeout(showToast, 4000);
+  setInterval(showToast, 8000);
+}
+
+/* ─────────────────────────────────────────
+   HEATMAP
+   ───────────────────────────────────────── */
+function initHeatmap() {
+  const grid = document.getElementById('workout-heatmap');
+  if (!grid) return;
+  const pattern = [0,0,2,0,3,0,0, 1,0,2,0,4,0,0, 0,0,3,0,2,0,0, 1,0,4,0,3,0,2,1];
+  pattern.forEach((heat) => {
+    const cell = document.createElement('div');
+    cell.className = `heat-cell h${heat}`;
+    cell.title = heat > 0 ? `${heat} workout${heat > 1 ? ' series' : ''}` : 'Rest';
+    grid.appendChild(cell);
+  });
+}
+
+/* ─────────────────────────────────────────
+   3D BADGE POP
+   ───────────────────────────────────────── */
+function initBadges3D() {
+  const items = document.querySelectorAll('.cta-badge-3d-item');
+  if (!items.length) return;
+  ScrollTrigger.create({
+    trigger: '#cta-3d-badges',
+    start: 'top 88%',
+    onEnter: () => {
+      items.forEach((item, i) => {
+        setTimeout(() => item.classList.add('popped'), i * 140);
+      });
+    }
+  });
+}
+
+/* ─────────────────────────────────────────
+   TYPEWRITER – AI COACH MSG
+   ───────────────────────────────────────── */
+function initTypewriterCoach() {
+  const msgEl = document.querySelector('.app-coach-msg');
+  if (!msgEl) return;
+  const original = msgEl.textContent.trim();
+  msgEl.innerHTML = '';
+  const cursor = document.createElement('span');
+  cursor.className = 'jarvis-cursor-blink';
+  msgEl.appendChild(cursor);
+  let i = 0;
+  function type() {
+    if (i < original.length) {
+      msgEl.insertBefore(document.createTextNode(original[i]), cursor);
+      i++;
+      setTimeout(type, 22 + Math.random() * 18);
+    } else {
+      setTimeout(() => cursor.remove(), 1800);
+    }
+  }
+  setTimeout(type, 2800);
+}
+
+/* ─────────────────────────────────────────
+   LEVEL-UP EXPLOSION on stats enter
+   ───────────────────────────────────────── */
+function triggerLevelUpExplosion(label) {
+  const overlay = document.createElement('div');
+  overlay.className = 'level-up-overlay';
+  const num = document.createElement('div');
+  num.className = 'level-up-number';
+  num.textContent = label;
+  const sub = document.createElement('div');
+  sub.className = 'level-up-sub';
+  sub.textContent = 'atleti hanno già scelto AURA';
+  for (let j = 0; j < 3; j++) {
+    const wave = document.createElement('div');
+    wave.className = 'shock-wave';
+    wave.style.animationDelay = (j * 0.28) + 's';
+    overlay.appendChild(wave);
+  }
+  overlay.appendChild(num);
+  overlay.appendChild(sub);
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => overlay.classList.add('active'));
+  overlay.addEventListener('click', () => {
+    overlay.style.transition = 'opacity .3s';
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.remove(), 320);
+  });
+  setTimeout(() => {
+    overlay.style.transition = 'opacity .5s';
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.remove(), 520);
+  }, 2200);
+}
+
+function initLevelUpStats() {
+  let fired = false;
+  ScrollTrigger.create({
+    trigger: '#stats',
+    start: 'top 65%',
+    onEnter: () => {
+      if (fired) return;
+      fired = true;
+      setTimeout(() => triggerLevelUpExplosion('12.000+'), 600);
+    }
+  });
+}
+
+/* ─────────────────────────────────────────
+   CONFETTI on CTA click
+   ───────────────────────────────────────── */
+function fireConfetti() {
+  const cvs = document.createElement('canvas');
+  cvs.style.cssText = 'position:fixed;inset:0;z-index:9989;pointer-events:none';
+  cvs.width = window.innerWidth;
+  cvs.height = window.innerHeight;
+  document.body.appendChild(cvs);
+  const ctx = cvs.getContext('2d');
+  const particles = [];
+  const colors = ['#f97316','#fb923c','#fbbf24','#22c55e','#38bdf8','#a78bfa'];
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: window.innerWidth / 2, y: window.innerHeight / 2,
+      vx: (Math.random() - .5) * 18, vy: (Math.random() - 1.2) * 14,
+      w: 3 + Math.random() * 6, h: 4 + Math.random() * 5,
+      c: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * 360, rv: (Math.random() - .5) * 14, g: .3 + Math.random() * .2
+    });
+  }
+  const start = performance.now();
+  function frame(now) {
+    const t = now - start;
+    if (t > 1400) { document.body.removeChild(cvs); return; }
+    ctx.clearRect(0, 0, cvs.width, cvs.height);
+    ctx.globalAlpha = t > 1000 ? 1 - (t - 1000) / 400 : 1;
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.vy += p.g; p.rot += p.rv; p.vx *= .98;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function initConfettiOnCta() {
+  const btn = document.querySelector('.cta-shine-btn');
+  if (!btn) return;
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    fireConfetti();
+    setTimeout(() => { window.location.href = btn.getAttribute('href') || '#cta'; }, 600);
+  });
+}
+
 function onLoaderDone() {
   triggerScramble();
   initPhoneMockup();
@@ -459,6 +664,14 @@ function onLoaderDone() {
   initHeader();
   initElasticEnter();
   initTicker();
+  // NEW AURAMOBILE EFFECTS:
+  initDynamicIsland();
+  initToastsLanding();
+  initHeatmap();
+  initBadges3D();
+  initTypewriterCoach();
+  initLevelUpStats();
+  initConfettiOnCta();
   ScrollTrigger.refresh();
 }
 
