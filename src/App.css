@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: none;
 }
 
 :root {
@@ -14,6 +15,8 @@
   --accent-light: #7eff9f;
   --accent-dark: #00a876;
   --bg: #0f0f0f;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
 }
 
 html, body {

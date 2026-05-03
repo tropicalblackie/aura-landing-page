@@ -13,32 +13,19 @@ import './App.css'
 function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [showMenu, setShowMenu] = useState(false)
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2500)
-
+    const timer = setTimeout(() => setIsLoading(false), 3000)
     return () => clearTimeout(timer)
-  }, [])
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setCursorPos({ x: e.clientX, y: e.clientY })
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
   return (
     <div className="app">
       {isLoading && <Loader />}
-      <Cursor position={cursorPos} />
-      <Header onMenuClick={() => setShowMenu(!showMenu)} />
+      <Cursor />
+      <Header onMenuClick={() => setShowMenu(!showMenu)} menuOpen={showMenu} />
       <Menu isOpen={showMenu} onClose={() => setShowMenu(false)} />
-      
+
       <main className="main-content">
         <Hero />
         <Features />

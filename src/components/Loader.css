@@ -1,17 +1,157 @@
 .loader {
-  position: fixed;
-  top: 0;
+  align-items: center;
+  background: #0a0a0a;
+  display: flex;
+  height: 100%;
+  justify-content: center;
   left: 0;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  animation: loaderFadeOut 0.8s ease-out 2.8s forwards;
+}
+
+@keyframes loaderFadeOut {
+  from { opacity: 1; visibility: visible; }
+  to   { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+/* Progress fill — slides up from bottom, revealing accent-colored cube */
+.loader__progress {
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  background: #0a0a0a;
+  transform: translateY(100%);
+  animation: progressFill 1.8s cubic-bezier(0.76, 0, 0.24, 1) 0.5s forwards;
+  z-index: 1;
+  background: #0f1a17;
+}
+
+.loader__progress-inner {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@keyframes progressFill {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.loader__inner {
+  align-items: center;
+  display: flex;
+  justify-content: center;
   flex-direction: column;
-  z-index: 9999;
-  overflow: hidden;
-  animation: loaderFadeOut 0.8s ease-out 2.2s forwards;
+  position: relative;
+}
+
+.loader__title,
+.loader__tagline {
+  position: relative;
+  z-index: 1;
+}
+
+.loader__title {
+  display: block;
+  font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: 0.3em;
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #444444;
+}
+
+.loader__tagline {
+  font-size: 0.85rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: -0.01em;
+  line-height: 1.6;
+  color: #2a2a2a;
+  margin: 0;
+}
+
+.loader__progress .loader__title {
+  color: #00d9a3;
+}
+
+.loader__progress .loader__tagline {
+  color: rgba(0, 217, 163, 0.4);
+}
+
+/* 3D cube wrapper */
+.loader__wrap {
+  perspective: 32rem;
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+/* The cube */
+.loader__box {
+  height: 8rem;
+  margin: 0 auto;
+  pointer-events: none;
+  position: relative;
+  transform-style: preserve-3d;
+  width: 8rem;
+}
+
+.loader__box,
+.loader__box div {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.loader__box div {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 3.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 700;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  color: #333333;
+  letter-spacing: 0;
+}
+
+/* 6 cube faces */
+.loader__box div:nth-child(1) { transform: rotateY(0deg) translateZ(4rem); }
+.loader__box div:nth-child(2) { transform: rotateY(-90deg) translateZ(4rem); }
+.loader__box div:nth-child(3) { transform: rotateX(-90deg) rotate(-90deg) translateZ(4rem); }
+.loader__box div:nth-child(4) { transform: rotateX(180deg) rotate(-90deg) translateZ(4rem); }
+.loader__box div:nth-child(5) { transform: rotateX(90deg) translateZ(4rem); }
+.loader__box div:nth-child(6) { transform: rotateY(90deg) rotate(90deg) translateZ(4rem); }
+
+/* Accent variant shown in the progress fill */
+.loader__box--accent div {
+  background: #0a1a14;
+  border-color: rgba(0, 217, 163, 0.2);
+  color: #00d9a3;
+}
+
+/* Spin animation */
+.loader--animate .loader__box {
+  animation: loaderSpin 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+@keyframes loaderSpin {
+  0%    { transform: rotateY(0deg) rotateX(0deg); }
+  16.6% { transform: rotateY(90deg) rotateX(0deg); }
+  33.3% { transform: rotateY(90deg) rotateX(0deg) rotate(90deg); }
+  50%   { transform: rotateY(180deg) rotateX(0deg) rotate(90deg); }
+  66.6% { transform: rotateY(180deg) rotateX(-90deg) rotate(90deg); }
+  83.3% { transform: rotateY(270deg) rotateX(-90deg) rotate(90deg); }
+  to    { transform: rotateY(270deg) rotateX(-90deg) rotate(90deg) rotateX(90deg); }
 }
 
 @keyframes loaderFadeOut {
