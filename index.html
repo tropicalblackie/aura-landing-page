@@ -29,10 +29,7 @@
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
-  <!-- Three.js canvas (hero bg, fixed, fades on scroll) -->
-  <canvas id="gl"></canvas>
 
-  <!-- Header -->
   <header id="header">
     <a href="#" class="logo shimmer-text">AURA</a>
     <nav>
@@ -47,30 +44,129 @@
   <section id="hero">
     <div class="aurora" aria-hidden="true"></div>
     <div class="hero-inner">
-      <div class="hero-eyebrow" data-scramble>AI Fitness Coach &mdash; 2026</div>
-      <h1 class="hero-title">
-        <span class="hero-line" data-line="0">ALLENATI</span>
-        <span class="hero-line hero-outline" data-line="1">COME NON</span>
-        <span class="hero-line" data-line="2">HAI MAI FATTO</span>
-      </h1>
-      <p class="hero-sub">
-        Schede personalizzate generate dall&rsquo;AI. Nutrizione su misura.<br>
-        Il tuo coach non dorme mai, non si stanca, non ti giudica.
-      </p>
-      <div class="hero-actions">
-        <a href="#cta" class="btn-fill magnetic">Crea il tuo profilo</a>
-        <a href="#features" class="btn-ghost">Scopri AURA &darr;</a>
+
+      <!-- LEFT: copy -->
+      <div class="hero-content">
+        <div class="hero-eyebrow" data-scramble>AI Fitness Coach &mdash; 2026</div>
+        <h1 class="hero-title">
+          <span class="hero-line" data-line="0">ALLENATI</span>
+          <span class="hero-line hero-outline" data-line="1">COME NON</span>
+          <span class="hero-line" data-line="2">HAI MAI FATTO</span>
+        </h1>
+        <p class="hero-sub">
+          Schede personalizzate generate dall&rsquo;AI. Nutrizione su misura.<br>
+          Il tuo coach non dorme mai, non si stanca, non ti giudica.
+        </p>
+        <div class="hero-actions">
+          <a href="#cta" class="btn-fill magnetic">Crea il tuo profilo</a>
+          <a href="#features" class="btn-ghost">Scopri AURA &darr;</a>
+        </div>
+        <div class="thinking-loader hero-thinking" aria-hidden="true">
+          <span class="ld"></span><span class="ld"></span><span class="ld"></span>
+        </div>
       </div>
-      <div class="thinking-loader hero-thinking" aria-hidden="true">
-        <span class="ld"></span><span class="ld"></span><span class="ld"></span>
-      </div>
-    </div>
+
+      <!-- RIGHT: phone mockup -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+
+            <!-- Top bar -->
+            <div class="app-topbar">
+              <span class="app-logo">AURA</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="app-coach-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/></svg>
+                </div>
+                <div class="app-av">M</div>
+              </div>
+            </div>
+
+            <!-- Pulse bar -->
+            <div class="app-pulse-bar"><div class="app-pulse-fill"></div></div>
+
+            <!-- Greeting -->
+            <div class="app-greeting">
+              <div class="app-greeting-name">Ciao Marco</div>
+              <div class="app-greeting-meta">
+                <svg viewBox="0 0 24 24" fill="var(--or)" width="10" height="10"><path d="M12 2c-3 4-4 8-2 12-2-2-5 0-3 4 2-2 4 0 5-2 2 2 4 0 5-2 2-4 0-6-2-4 2-4 0-8-3-8z"/></svg>
+                12 giorni &middot; Livello 4
+              </div>
+            </div>
+
+            <!-- Workout hero card -->
+            <div class="app-card">
+              <div class="app-card-label">
+                <span class="app-dot"></span> ALLENAMENTO DI OGGI
+              </div>
+              <div class="app-card-title">Upper Body A</div>
+              <div class="app-card-meta">6 esercizi &middot; 45 min &middot; ~320 kcal</div>
+              <div class="app-card-muscles">
+                <span class="app-chip or">Petto</span>
+                <span class="app-chip bl">Schiena</span>
+                <span class="app-chip pu">Spalle</span>
+              </div>
+              <div class="app-card-btn">Inizia Allenamento</div>
+            </div>
+
+            <!-- Weekly streak -->
+            <div class="app-streak-label">STREAK SETTIMANALE</div>
+            <div class="app-streak">
+              <div class="app-streak-day done"><span>L</span></div>
+              <div class="app-streak-day done"><span>M</span></div>
+              <div class="app-streak-day done"><span>M</span></div>
+              <div class="app-streak-day today"><span>G</span></div>
+              <div class="app-streak-day"><span>V</span></div>
+              <div class="app-streak-day"><span>S</span></div>
+              <div class="app-streak-day"><span>D</span></div>
+            </div>
+
+            <!-- AI coach mini card -->
+            <div class="app-coach-card">
+              <div class="app-coach-card-top">
+                <span class="app-coach-glyph">&#9672;</span>
+                <span class="app-coach-title">AURA COACH</span>
+                <div class="thinking-loader" style="margin-left:auto">
+                  <span class="ld"></span><span class="ld"></span><span class="ld"></span>
+                </div>
+              </div>
+              <div class="app-coach-msg">&ldquo;Ottimo! Hai completato 3 allenamenti. Oggi punta alle <strong>6 serie da 8 rep</strong> sulla panca.&rdquo;</div>
+            </div>
+
+            <!-- Bottom nav -->
+            <div class="app-bottomnav">
+              <div class="app-nav-item on">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>Home</span>
+              </div>
+              <div class="app-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path d="M6.5 6.5h11M6 12h12M17.5 17.5h-11"/><rect x="2" y="9" width="4" height="6" rx="1"/><rect x="18" y="9" width="4" height="6" rx="1"/></svg>
+                <span>Workout</span>
+              </div>
+              <div class="app-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                <span>Camera</span>
+              </div>
+              <div class="app-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2l-5 5v8a2 2 0 002 2h3m0 0v5"/></svg>
+                <span>Diet</span>
+              </div>
+              <div class="app-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Profilo</span>
+              </div>
+            </div>
+
+          </div><!-- /phone-screen -->
+        </div><!-- /phone-frame -->
+      </div><!-- /hero-visual -->
+
+    </div><!-- /hero-inner -->
     <div class="hero-scroll-wrap">
       <div class="scroll-bar"></div>
       <span>Scorri per esplorare</span>
     </div>
-    <div class="hero-badge hero-badge--l">Powered by AI</div>
-    <div class="hero-badge hero-badge--r">v2.0 &middot; 2026</div>
   </section>
 
   <!-- TICKER -->

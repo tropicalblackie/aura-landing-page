@@ -1,16 +1,7 @@
-﻿import * as THREE from 'three';
-import { gsap } from 'gsap';
+﻿import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
-
-/* ─────────────────────────────────────────
-   AURA brand constants
-   ───────────────────────────────────────── */
-const C_CORE  = 0xf97316;
-const C_RING1 = 0xea6c0d;
-const C_RING2 = 0xfb923c;
-const C_PART  = 0xf97316;
 
 /* ─────────────────────────────────────────
    1. LOADER
@@ -358,156 +349,21 @@ function initCursor() {
 }
 
 /* ─────────────────────────────────────────
-   16. THREE.JS ORB
+   16. PHONE MOCKUP — animate on scroll
    ───────────────────────────────────────── */
-function initThreeOrb() {
-  const canvas = document.getElementById('gl');
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x000000, 0);
-
-  const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, .1, 100);
-  camera.position.z = 4;
-
-  // Core sphere
-  const coreMat = new THREE.MeshStandardMaterial({
-    color: C_CORE,
-    emissive: C_CORE,
-    emissiveIntensity: .45,
-    roughness: .3,
-    metalness: .6,
-    transparent: true,
-    opacity: .9
-  });
-  const core = new THREE.Mesh(new THREE.SphereGeometry(.72, 64, 64), coreMat);
-  scene.add(core);
-
-  // Inner glow (back-side)
-  const innerMat = new THREE.MeshStandardMaterial({
-    color: C_CORE,
-    emissive: C_CORE,
-    emissiveIntensity: .7,
-    side: THREE.BackSide,
-    transparent: true,
-    opacity: .35
-  });
-  const innerGlow = new THREE.Mesh(new THREE.SphereGeometry(.82, 32, 32), innerMat);
-  scene.add(innerGlow);
-
-  // Outer ring 1
-  const ring1Mat = new THREE.MeshBasicMaterial({
-    color: C_RING1,
-    side: THREE.DoubleSide,
-    transparent: true,
-    opacity: .55,
-    wireframe: false
-  });
-  const ring1 = new THREE.Mesh(
-    new THREE.TorusGeometry(1.12, .008, 16, 120),
-    ring1Mat
-  );
-  ring1.rotation.x = Math.PI / 2.5;
-  scene.add(ring1);
-
-  // Outer ring 2
-  const ring2Mat = new THREE.MeshBasicMaterial({
-    color: C_RING2,
-    side: THREE.DoubleSide,
-    transparent: true,
-    opacity: .38
-  });
-  const ring2 = new THREE.Mesh(
-    new THREE.TorusGeometry(1.35, .006, 16, 120),
-    ring2Mat
-  );
-  ring2.rotation.x = Math.PI / 3.8;
-  ring2.rotation.y = Math.PI / 5;
-  scene.add(ring2);
-
-  // Particles
-  const count = 1600;
-  const positions = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
-    const phi   = Math.acos(2 * Math.random() - 1);
-    const theta = Math.random() * Math.PI * 2;
-    const r     = 1.7 + Math.random() * .6;
-    positions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
-    positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-    positions[i * 3 + 2] = r * Math.cos(phi);
-  }
-  const partGeo = new THREE.BufferGeometry();
-  partGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const partMat = new THREE.PointsMaterial({
-    color: C_PART,
-    size: .018,
-    transparent: true,
-    opacity: .65,
-    sizeAttenuation: true
-  });
-  const particles = new THREE.Points(partGeo, partMat);
-  scene.add(particles);
-
-  // Lighting
-  scene.add(new THREE.AmbientLight(0xffffff, .5));
-  const pLight = new THREE.PointLight(C_CORE, 3, 10);
-  pLight.position.set(2, 2, 2);
-  scene.add(pLight);
-  const pLight2 = new THREE.PointLight(C_RING2, 2, 8);
-  pLight2.position.set(-2, -1, 2);
-  scene.add(pLight2);
-
-  // Mouse parallax
-  let targetX = 0, targetY = 0;
-  document.addEventListener('mousemove', e => {
-    targetX = (e.clientX / window.innerWidth - .5) * .6;
-    targetY = (e.clientY / window.innerHeight - .5) * .6;
-  });
-
-  // Canvas fade on scroll (ScrollTrigger)
-  gsap.to(canvas, {
+function initPhoneMockup() {
+  const phone = document.querySelector('.phone-frame');
+  if (!phone) return;
+  gsap.to(phone, {
     opacity: 0,
+    y: -40,
     scrollTrigger: {
+      trigger: '#hero',
       start: 'top top',
-      end: '30% top',
-      scrub: true
+      end: '50% top',
+      scrub: 1.2
     }
   });
-
-  // Resize
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-
-  // Render loop
-  const clock = new THREE.Clock();
-  function animate() {
-    requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
-
-    core.rotation.y  = t * .18;
-    core.rotation.x  = t * .06;
-    ring1.rotation.z = t * .22;
-    ring2.rotation.z = -t * .14;
-    ring2.rotation.y = t * .1;
-    particles.rotation.y = t * .04;
-    particles.rotation.x = t * .02;
-
-    // Parallax tilt
-    core.rotation.y      += (targetX - core.rotation.y) * .04;
-    ring1.rotation.y     += targetX * .02;
-    particles.rotation.y += targetX * .01;
-
-    // Breathe emissive
-    coreMat.emissiveIntensity = .4 + .15 * Math.sin(t * 1.4);
-    innerMat.emissiveIntensity = .6 + .2 * Math.sin(t * 1.8 + 1);
-
-    renderer.render(scene, camera);
-  }
-  animate();
 }
 
 /* ─────────────────────────────────────────
@@ -590,7 +446,7 @@ function initTicker() {
 function onLoaderDone() {
   // initialize everything
   triggerScramble();
-  initThreeOrb();
+  initPhoneMockup();
   initHeroEntrance();
   initHeroParallax();
   initSplitText();
