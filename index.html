@@ -3,114 +3,331 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="description" content="AURA — Il tuo coach AI personale. Allenati come non hai mai fatto." />
+  <meta name="description" content="AURA — Il tuo AI Coach Personale. Schede su misura, nutrizione intelligente, progressi reali." />
   <title>AURA — AI Fitness Coach</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
 </head>
-<body>
+<body class="is-loading">
+
+  <!-- Loader -->
+  <div id="loader">
+    <span class="loader-logo">AURA</span>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+  </div>
 
   <!-- Custom cursor -->
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
-  <!-- Header -->
-  <header id="header">
-    <a href="#" class="logo" data-anim>AURA</a>
-    <nav data-anim>
-      <a href="https://tropicalblackie.github.io/AURAMOBILE/" target="_blank">Apri App</a>
-    </nav>
-  </header>
-
-  <!-- Background rings -->
-  <div id="bg-rings" aria-hidden="true">
-    <div class="ring ring-1"></div>
-    <div class="ring ring-2"></div>
-    <div class="ring ring-3"></div>
-    <div class="ring ring-4"></div>
-  </div>
-
-  <!-- Three.js canvas -->
+  <!-- Three.js canvas (hero bg, fixed, fades on scroll) -->
   <canvas id="gl"></canvas>
 
-  <!-- Hero figure layer -->
-  <div id="figure-layer" aria-hidden="true">
-    <div id="figure-glow"></div>
-    <svg id="figure-svg" viewBox="0 0 320 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <!-- Head -->
-      <ellipse cx="160" cy="60" rx="38" ry="42" fill="url(#bodyGrad)" opacity="0.95"/>
-      <!-- Neck -->
-      <rect x="149" y="98" width="22" height="22" rx="6" fill="url(#bodyGrad)" opacity="0.9"/>
-      <!-- Torso -->
-      <path d="M100 120 C100 115 120 108 160 108 C200 108 220 115 220 120 L230 260 C230 265 218 272 160 272 C102 272 90 265 90 260 Z" fill="url(#bodyGrad)" opacity="0.92"/>
-      <!-- Left arm -->
-      <path d="M100 130 C85 140 65 165 55 200 C48 225 50 250 58 265 C64 275 74 278 82 270 C88 260 88 240 90 215 C93 185 96 162 100 145 Z" fill="url(#bodyGrad)" opacity="0.88"/>
-      <!-- Left forearm -->
-      <path d="M58 265 C52 280 48 300 50 318 C52 330 60 335 68 328 C76 320 80 302 82 285 C84 272 82 270 58 265 Z" fill="url(#bodyGrad)" opacity="0.85"/>
-      <!-- Right arm -->
-      <path d="M220 130 C235 140 255 165 265 200 C272 225 270 250 262 265 C256 275 246 278 238 270 C232 260 232 240 230 215 C227 185 224 162 220 145 Z" fill="url(#bodyGrad)" opacity="0.88"/>
-      <!-- Right forearm -->
-      <path d="M262 265 C268 280 272 300 270 318 C268 330 260 335 252 328 C244 320 240 302 238 285 C236 272 238 270 262 265 Z" fill="url(#bodyGrad)" opacity="0.85"/>
-      <!-- Left thigh -->
-      <path d="M120 270 C108 280 98 310 95 345 C92 375 96 400 105 415 C112 426 124 428 133 420 C142 410 145 385 146 355 C148 320 146 290 140 272 Z" fill="url(#bodyGrad)" opacity="0.9"/>
-      <!-- Right thigh -->
-      <path d="M200 270 C212 280 222 310 225 345 C228 375 224 400 215 415 C208 426 196 428 187 420 C178 410 175 385 174 355 C172 320 174 290 180 272 Z" fill="url(#bodyGrad)" opacity="0.9"/>
-      <!-- Left shin -->
-      <path d="M105 415 C100 432 98 455 100 475 C102 490 110 498 120 496 C130 493 136 480 138 462 C140 445 136 428 133 420 Z" fill="url(#bodyGrad)" opacity="0.85"/>
-      <!-- Right shin -->
-      <path d="M215 415 C220 432 222 455 220 475 C218 490 210 498 200 496 C190 493 184 480 182 462 C180 445 184 428 187 420 Z" fill="url(#bodyGrad)" opacity="0.85"/>
+  <!-- Header -->
+  <header id="header">
+    <a href="#" class="logo">AURA</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#how">Come funziona</a>
+      <a href="#manifesto">Manifesto</a>
+    </nav>
+    <a href="#cta" class="btn-nav">Inizia Gratis</a>
+  </header>
 
-      <!-- Muscle highlight lines -->
-      <path d="M140 125 C142 160 143 200 142 240" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M180 125 C178 160 177 200 178 240" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M120 200 C135 195 160 192 185 195 C200 198 210 202 215 208" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">AI Fitness Coach &mdash; 2026</div>
+      <h1 class="hero-title">
+        <span class="hero-line" data-line="0">ALLENATI</span>
+        <span class="hero-line hero-outline" data-line="1">COME NON</span>
+        <span class="hero-line" data-line="2">HAI MAI FATTO</span>
+      </h1>
+      <p class="hero-sub">
+        Schede personalizzate generate dall&rsquo;AI. Nutrizione su misura.<br>
+        Il tuo coach non dorme mai, non si stanca, non ti giudica.
+      </p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn-fill">Crea il tuo profilo</a>
+        <a href="#features" class="btn-ghost">Scopri AURA &darr;</a>
+      </div>
+    </div>
+    <div class="hero-scroll-wrap">
+      <div class="scroll-bar"></div>
+      <span>Scorri per esplorare</span>
+    </div>
+    <div class="hero-badge hero-badge--l">Powered by AI</div>
+    <div class="hero-badge hero-badge--r">v2.0 &middot; 2026</div>
+  </section>
 
-      <!-- Face features -->
-      <ellipse cx="148" cy="55" rx="5" ry="5.5" fill="rgba(0,0,0,0.5)"/>
-      <ellipse cx="172" cy="55" rx="5" ry="5.5" fill="rgba(0,0,0,0.5)"/>
-      <path d="M150 74 C155 79 165 79 170 74" stroke="rgba(0,0,0,0.5)" stroke-width="2" stroke-linecap="round" fill="none"/>
-
-      <defs>
-        <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#c8b4f5"/>
-          <stop offset="50%" stop-color="#a78fe0"/>
-          <stop offset="100%" stop-color="#7b5ea7"/>
-        </linearGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="8" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-    </svg>
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>AI Coach</span><em>&middot;</em>
+      <span>Schede Personalizzate</span><em>&middot;</em>
+      <span>Nutrizione Intelligente</span><em>&middot;</em>
+      <span>Progress Tracking</span><em>&middot;</em>
+      <span>Recovery Analytics</span><em>&middot;</em>
+      <span>Dashboard Avanzata</span><em>&middot;</em>
+      <span>AI Coach</span><em>&middot;</em>
+      <span>Schede Personalizzate</span><em>&middot;</em>
+      <span>Nutrizione Intelligente</span><em>&middot;</em>
+      <span>Progress Tracking</span><em>&middot;</em>
+      <span>Recovery Analytics</span><em>&middot;</em>
+      <span>Dashboard Avanzata</span><em>&middot;</em>
+    </div>
   </div>
 
-  <!-- Title -->
-  <div id="title-block">
-    <h1 id="title">
-      <span class="title-line" data-line="0">AI FITNESS</span>
-      <span class="title-line title-outline" data-line="1">COACHING</span>
-    </h1>
-  </div>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-left">
+          <div class="tag" data-reveal>Chi siamo</div>
+          <h2 data-reveal>Un nuovo standard nell&rsquo;allenamento personale</h2>
+          <p data-reveal>AURA nasce dalla frustrazione di piani generici e allenamenti uguali per tutti. Abbiamo costruito un sistema AI che ti conosce davvero &mdash; il tuo corpo, i tuoi obiettivi, i tuoi limiti.</p>
+          <p data-reveal>Non un&rsquo;altra app di fitness. Un coach che si adatta ogni giorno.</p>
+        </div>
+        <div class="about-right">
+          <div class="about-item" data-reveal>
+            <span class="about-num">01</span>
+            <p>Il piano si adatta in base alle tue performance reali, non a uno schema prefissato.</p>
+          </div>
+          <div class="about-item" data-reveal>
+            <span class="about-num">02</span>
+            <p>L&rsquo;AI analizza recupero, sonno e stress per ottimizzare il carico di allenamento.</p>
+          </div>
+          <div class="about-item" data-reveal>
+            <span class="about-num">03</span>
+            <p>Nutrizione calcolata al grammo sui tuoi macronutrienti e obiettivi specifici.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Footer -->
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <div class="section-head">
+        <div class="tag" data-reveal>Funzionalit&agrave;</div>
+        <h2 data-reveal>Tutto ci&ograve; che serve<br>per trasformarti</h2>
+      </div>
+      <div class="feat-grid" data-stagger="0.07">
+        <div class="feat-card">
+          <div class="feat-icon">&#9889;</div>
+          <h3>AI Coach 24/7</h3>
+          <p>Il tuo allenatore artificiale risponde a qualsiasi domanda su allenamento, dieta e recupero in qualsiasi momento della giornata.</p>
+          <div class="feat-tag">Intelligenza Artificiale</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#127919;</div>
+          <h3>Schede Su Misura</h3>
+          <p>Ogni routine &egrave; generata sulla base di obiettivi, livello, attrezzatura e tempo disponibile. Zero schemi preimpostati.</p>
+          <div class="feat-tag">Personalizzazione</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#127857;</div>
+          <h3>Nutrizione Intelligente</h3>
+          <p>Database con milioni di alimenti, TDEE automatico, piano dietetico su misura. Calorie e macros sempre sotto controllo.</p>
+          <div class="feat-tag">Nutrizione</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128202;</div>
+          <h3>Analytics Avanzati</h3>
+          <p>Dashboard interattiva per forza, volume, composizione corporea e trend nel tempo. I dati che contano davvero per crescere.</p>
+          <div class="feat-tag">Data &amp; Analytics</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128564;</div>
+          <h3>Recovery Optimizer</h3>
+          <p>Monitora recupero muscolare e ottimizza i rest day. L&rsquo;AI riduce o aumenta il carico in base al tuo stato fisico attuale.</p>
+          <div class="feat-tag">Recovery</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128272;</div>
+          <h3>Privacy First</h3>
+          <p>I tuoi dati restano tuoi. Nessuna vendita a terzi, nessun tracking pubblicitario. La tua salute &egrave; strettamente privata.</p>
+          <div class="feat-tag">Sicurezza</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats">
+    <div class="container">
+      <div class="stats-grid" data-stagger="0.1">
+        <div class="stat">
+          <div class="stat-val" data-count="10" data-suffix="K+">0</div>
+          <div class="stat-lbl">Atleti Attivi</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val" data-count="250" data-suffix="K+">0</div>
+          <div class="stat-lbl">Allenamenti Completati</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val" data-count="98" data-suffix="%">0</div>
+          <div class="stat-lbl">Soddisfazione Utenti</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val" data-count="45" data-suffix="+">0</div>
+          <div class="stat-lbl">Paesi nel Mondo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container">
+      <div class="section-head">
+        <div class="tag" data-reveal>Come funziona</div>
+        <h2 data-reveal>Dal profilo alla trasformazione</h2>
+      </div>
+      <div class="steps">
+        <div class="step" data-reveal>
+          <div class="step-n">01</div>
+          <div class="step-body">
+            <h3>Crea il tuo profilo</h3>
+            <p>Inserisci obiettivi, livello fitness, disponibilit&agrave; settimanale e attrezzatura. Bastano 2 minuti per iniziare.</p>
+          </div>
+        </div>
+        <div class="step" data-reveal>
+          <div class="step-n">02</div>
+          <div class="step-body">
+            <h3>L&rsquo;AI costruisce il tuo piano</h3>
+            <p>AURA genera una scheda di allenamento e un piano alimentare completamente personalizzati. Nessun template &mdash; tutto costruito su di te.</p>
+          </div>
+        </div>
+        <div class="step" data-reveal>
+          <div class="step-n">03</div>
+          <div class="step-body">
+            <h3>Allenati con guida live</h3>
+            <p>Ogni sessione &egrave; guidata in tempo reale. Timer, serie, carichi, riposi &mdash; tutto automatizzato. Pensa solo ad allenarti.</p>
+          </div>
+        </div>
+        <div class="step" data-reveal>
+          <div class="step-n">04</div>
+          <div class="step-body">
+            <h3>Evolvi ogni settimana</h3>
+            <p>Il sistema analizza performance e progressi, aggiornando continuamente il piano per massimizzare i risultati nel tempo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-head">
+        <div class="tag" data-reveal>Testimonianze</div>
+        <h2 data-reveal>Risultati reali,<br>persone reali</h2>
+      </div>
+      <div class="testi-row" data-stagger="0.12">
+        <div class="testi">
+          <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>&ldquo;In 3 mesi con AURA ho guadagnato pi&ugrave; massa muscolare che in un anno con un PT tradizionale. Il coach AI &egrave; incredibilmente preciso.&rdquo;</p>
+          <div class="testi-who">
+            <div class="testi-av">M</div>
+            <div><strong>Marco R.</strong><span>Ipertrofia &middot; Livello Intermedio</span></div>
+          </div>
+        </div>
+        <div class="testi testi--big">
+          <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>&ldquo;Finalmente un&rsquo;app che capisce davvero cosa vuoi. Ho perso 8kg in 12 settimane seguendo il piano nutrizionale generato dall&rsquo;AI. Risultato incredibile.&rdquo;</p>
+          <div class="testi-who">
+            <div class="testi-av">S</div>
+            <div><strong>Sara T.</strong><span>Definizione &middot; Livello Principiante</span></div>
+          </div>
+        </div>
+        <div class="testi">
+          <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>&ldquo;Uso AURA da 6 mesi. Il recovery optimizer mi ha cambiato la vita &mdash; niente pi&ugrave; sovrallenamento, progressi costanti ogni settimana.&rdquo;</p>
+          <div class="testi-who">
+            <div class="testi-av">L</div>
+            <div><strong>Luca P.</strong><span>Forza &middot; Livello Avanzato</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section id="manifesto">
+    <div class="container">
+      <div class="manifesto-wrap">
+        <div class="tag tag--dim" data-reveal>Il Manifesto</div>
+        <blockquote class="manifesto-q" data-reveal>
+          Non crediamo nei piani generici.<br>
+          Non crediamo nel fitness uguale per tutti.<br>
+          <br>
+          Crediamo in un&rsquo;intelligenza che ti conosce,<br>
+          che cresce con te ogni settimana,<br>
+          che non si stanca, non si distrae, non ti giudica.<br>
+          <br>
+          <em>Questo &egrave; AURA.</em>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="container">
+      <div class="cta-wrap">
+        <div class="tag" data-reveal>Inizia oggi</div>
+        <h2 data-reveal>Il tuo piano &egrave; gi&agrave; pronto.<br>Manca solo tu.</h2>
+        <p data-reveal>Gratuito per sempre. Nessuna carta di credito richiesta.</p>
+        <div class="cta-btns" data-reveal>
+          <a href="#" class="btn-fill">Crea il tuo profilo &rarr;</a>
+          <a href="#features" class="btn-ghost">Scopri le funzionalit&agrave;</a>
+        </div>
+        <div class="cta-badges" data-reveal>
+          <span>&#10003; Sempre gratuito</span>
+          <span>&#10003; Nessuna pubblicit&agrave;</span>
+          <span>&#10003; Privacy garantita</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer id="footer">
-    <div class="footer-left" data-anim>
-      <span>Coach AI Personalizzato</span>
-      <span>Schede su misura · Nutrizione · Progressi</span>
-    </div>
-    <div class="footer-cta" data-anim>
-      <a href="https://tropicalblackie.github.io/AURAMOBILE/" target="_blank" class="btn-launch" id="btnLaunch">
-        <span>Inizia Ora</span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-    </div>
-    <div class="footer-right" data-anim>
-      <a href="https://tropicalblackie.github.io/AURAMOBILE/" target="_blank">Web App</a>
-      <a href="mailto:hello@aura.app">Contatti</a>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand" data-reveal>
+          <span class="logo">AURA</span>
+          <p>Il tuo AI Coach personale.<br>Allenati come non hai mai fatto.</p>
+        </div>
+        <div class="footer-nav">
+          <div class="footer-col" data-reveal>
+            <strong>Prodotto</strong>
+            <a href="#features">Funzionalit&agrave;</a>
+            <a href="#how">Come funziona</a>
+            <a href="#cta">Inizia Gratis</a>
+          </div>
+          <div class="footer-col" data-reveal>
+            <strong>Azienda</strong>
+            <a href="#manifesto">Manifesto</a>
+            <a href="#about">Chi siamo</a>
+            <a href="mailto:hello@aura.app">Contatti</a>
+          </div>
+          <div class="footer-col" data-reveal>
+            <strong>Legale</strong>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Termini di Servizio</a>
+            <a href="#">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy;2026 AURA &mdash; Tutti i diritti riservati</span>
+        <span>Fatto con amore per gli atleti di domani</span>
+      </div>
     </div>
   </footer>
 
