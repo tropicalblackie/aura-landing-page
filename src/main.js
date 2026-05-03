@@ -441,12 +441,93 @@ function initTicker() {
 }
 
 /* ─────────────────────────────────────────
+   22. SCROLL ATHLETE — running figure scrubbed to scroll
+   ───────────────────────────────────────── */
+function initScrollAthlete() {
+  const el = document.getElementById('scroll-athlete');
+  if (!el) return;
+
+  // Pivot each limb-group around its joint using SVG coordinate space
+  gsap.set('#sa-ar', { svgOrigin: '14 -66' });
+  gsap.set('#sa-al', { svgOrigin: '-14 -66' });
+  gsap.set('#sa-lr', { svgOrigin: '9 -38' });
+  gsap.set('#sa-ll', { svgOrigin: '-9 -38' });
+
+  // 4 complete running strides mapped to full page scroll
+  const CYCLES = 4;
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1.5
+    }
+  });
+
+  for (let i = 0; i < CYCLES; i++) {
+    const t = i; // absolute timeline position (0,1,2,3)
+
+    // Pose A — right foot forward
+    tl.to('#sa-ar', { rotation:  30, ease: 'sine.inOut', duration: 0.25 }, t)
+      .to('#sa-al', { rotation: -30, ease: 'sine.inOut', duration: 0.25 }, t)
+      .to('#sa-lr', { rotation: -33, ease: 'sine.inOut', duration: 0.25 }, t)
+      .to('#sa-ll', { rotation:  33, ease: 'sine.inOut', duration: 0.25 }, t)
+    // Pose B — neutral
+      .to('#sa-ar', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.25)
+      .to('#sa-al', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.25)
+      .to('#sa-lr', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.25)
+      .to('#sa-ll', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.25)
+    // Pose C — left foot forward
+      .to('#sa-ar', { rotation: -30, ease: 'sine.inOut', duration: 0.25 }, t + 0.5)
+      .to('#sa-al', { rotation:  30, ease: 'sine.inOut', duration: 0.25 }, t + 0.5)
+      .to('#sa-lr', { rotation:  33, ease: 'sine.inOut', duration: 0.25 }, t + 0.5)
+      .to('#sa-ll', { rotation: -33, ease: 'sine.inOut', duration: 0.25 }, t + 0.5)
+    // Pose D — neutral
+      .to('#sa-ar', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.75)
+      .to('#sa-al', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.75)
+      .to('#sa-lr', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.75)
+      .to('#sa-ll', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.75);
+  }
+
+  // Subtle body bounce: rises on each stride, falls on impact
+  const bounceTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1.5
+    }
+  });
+  for (let i = 0; i < CYCLES * 2; i++) {
+    const t = i * 0.5;
+    bounceTl
+      .to('#sa-svg', { y: -5, ease: 'sine.inOut', duration: 0.25 }, t)
+      .to('#sa-svg', { y:  0, ease: 'sine.inOut', duration: 0.25 }, t + 0.25);
+  }
+
+  // Fade in when #about scrolls into view, hide on hero and footer
+  ScrollTrigger.create({
+    trigger: '#about',
+    start: 'top 80%',
+    onEnter:     () => gsap.to(el, { opacity: 1, duration: 0.8, ease: 'power2.out' }),
+    onLeaveBack: () => gsap.to(el, { opacity: 0, duration: 0.5 })
+  });
+  ScrollTrigger.create({
+    trigger: 'footer',
+    start: 'top 85%',
+    onEnter:     () => gsap.to(el, { opacity: 0, duration: 0.6 }),
+    onLeaveBack: () => gsap.to(el, { opacity: 1, duration: 0.4 })
+  });
+}
+
+/* ─────────────────────────────────────────
    BOOT — after loader done
    ───────────────────────────────────────── */
 function onLoaderDone() {
   // initialize everything
   triggerScramble();
   initPhoneMockup();
+  initScrollAthlete();
   initHeroEntrance();
   initHeroParallax();
   initSplitText();
