@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
@@ -7,15 +7,22 @@
   <title>AURA — AI Fitness Coach</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body class="is-loading">
+
+  <!-- Grain noise overlay -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Scroll progress bar -->
+  <div id="scroll-progress" aria-hidden="true"></div>
 
   <!-- Loader -->
   <div id="loader">
     <span class="loader-logo">AURA</span>
     <div class="loader-bar"><div class="loader-fill"></div></div>
+    <span class="loader-sub">Inizializzazione AI Coach&hellip;</span>
   </div>
 
   <!-- Custom cursor -->
@@ -27,19 +34,20 @@
 
   <!-- Header -->
   <header id="header">
-    <a href="#" class="logo">AURA</a>
+    <a href="#" class="logo shimmer-text">AURA</a>
     <nav>
       <a href="#features">Features</a>
       <a href="#how">Come funziona</a>
       <a href="#manifesto">Manifesto</a>
     </nav>
-    <a href="#cta" class="btn-nav">Inizia Gratis</a>
+    <a href="#cta" class="btn-nav magnetic">Inizia Gratis</a>
   </header>
 
   <!-- HERO -->
   <section id="hero">
+    <div class="aurora" aria-hidden="true"></div>
     <div class="hero-inner">
-      <div class="hero-eyebrow">AI Fitness Coach &mdash; 2026</div>
+      <div class="hero-eyebrow" data-scramble>AI Fitness Coach &mdash; 2026</div>
       <h1 class="hero-title">
         <span class="hero-line" data-line="0">ALLENATI</span>
         <span class="hero-line hero-outline" data-line="1">COME NON</span>
@@ -50,8 +58,11 @@
         Il tuo coach non dorme mai, non si stanca, non ti giudica.
       </p>
       <div class="hero-actions">
-        <a href="#cta" class="btn-fill">Crea il tuo profilo</a>
+        <a href="#cta" class="btn-fill magnetic">Crea il tuo profilo</a>
         <a href="#features" class="btn-ghost">Scopri AURA &darr;</a>
+      </div>
+      <div class="thinking-loader hero-thinking" aria-hidden="true">
+        <span class="ld"></span><span class="ld"></span><span class="ld"></span>
       </div>
     </div>
     <div class="hero-scroll-wrap">
@@ -80,74 +91,93 @@
     </div>
   </div>
 
+  <div class="section-sep" aria-hidden="true"></div>
+
   <!-- ABOUT -->
   <section id="about">
     <div class="container">
       <div class="about-grid">
         <div class="about-left">
           <div class="tag" data-reveal>Chi siamo</div>
-          <h2 data-reveal>Un nuovo standard nell&rsquo;allenamento personale</h2>
+          <h2 data-split>Un nuovo standard nell&rsquo;allenamento personale</h2>
           <p data-reveal>AURA nasce dalla frustrazione di piani generici e allenamenti uguali per tutti. Abbiamo costruito un sistema AI che ti conosce davvero &mdash; il tuo corpo, i tuoi obiettivi, i tuoi limiti.</p>
           <p data-reveal>Non un&rsquo;altra app di fitness. Un coach che si adatta ogni giorno.</p>
         </div>
         <div class="about-right">
           <div class="about-item" data-reveal>
             <span class="about-num">01</span>
-            <p>Il piano si adatta in base alle tue performance reali, non a uno schema prefissato.</p>
+            <div class="about-item-body">
+              <div class="fracture-beam" aria-hidden="true"></div>
+              <p>Il piano si adatta in base alle tue performance reali, non a uno schema prefissato.</p>
+            </div>
           </div>
           <div class="about-item" data-reveal>
             <span class="about-num">02</span>
-            <p>L&rsquo;AI analizza recupero, sonno e stress per ottimizzare il carico di allenamento.</p>
+            <div class="about-item-body">
+              <div class="fracture-beam" aria-hidden="true"></div>
+              <p>L&rsquo;AI analizza recupero, sonno e stress per ottimizzare il carico di allenamento.</p>
+            </div>
           </div>
           <div class="about-item" data-reveal>
             <span class="about-num">03</span>
-            <p>Nutrizione calcolata al grammo sui tuoi macronutrienti e obiettivi specifici.</p>
+            <div class="about-item-body">
+              <div class="fracture-beam" aria-hidden="true"></div>
+              <p>Nutrizione calcolata al grammo sui tuoi macronutrienti e obiettivi specifici.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
+  <div class="section-sep" aria-hidden="true"></div>
+
   <!-- FEATURES -->
   <section id="features">
     <div class="container">
       <div class="section-head">
         <div class="tag" data-reveal>Funzionalit&agrave;</div>
-        <h2 data-reveal>Tutto ci&ograve; che serve<br>per trasformarti</h2>
+        <h2 data-split>Tutto ci&ograve; che serve per trasformarti</h2>
       </div>
       <div class="feat-grid" data-stagger="0.07">
-        <div class="feat-card">
-          <div class="feat-icon">&#9889;</div>
+        <div class="feat-card" data-tilt>
+          <div class="feat-card-top-edge" aria-hidden="true"></div>
+          <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
           <h3>AI Coach 24/7</h3>
           <p>Il tuo allenatore artificiale risponde a qualsiasi domanda su allenamento, dieta e recupero in qualsiasi momento della giornata.</p>
           <div class="feat-tag">Intelligenza Artificiale</div>
         </div>
-        <div class="feat-card">
-          <div class="feat-icon">&#127919;</div>
+        <div class="feat-card" data-tilt>
+          <div class="feat-card-top-edge" aria-hidden="true"></div>
+          <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="22"/><line x1="2" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="22" y2="12"/></svg></div>
           <h3>Schede Su Misura</h3>
           <p>Ogni routine &egrave; generata sulla base di obiettivi, livello, attrezzatura e tempo disponibile. Zero schemi preimpostati.</p>
           <div class="feat-tag">Personalizzazione</div>
         </div>
-        <div class="feat-card">
-          <div class="feat-icon">&#127857;</div>
+        <div class="feat-card" data-tilt>
+          <div class="feat-card-top-edge" aria-hidden="true"></div>
+          <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M8 21h8M3 7l9-3 9 3M3 7l3 7a4 4 0 008 0l3-7"/></svg></div>
           <h3>Nutrizione Intelligente</h3>
           <p>Database con milioni di alimenti, TDEE automatico, piano dietetico su misura. Calorie e macros sempre sotto controllo.</p>
           <div class="feat-tag">Nutrizione</div>
         </div>
-        <div class="feat-card">
-          <div class="feat-icon">&#128202;</div>
+        <div class="feat-card" data-tilt>
+          <div class="feat-card-top-edge" aria-hidden="true"></div>
+          <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="12" width="4" height="8" rx="1"/><rect x="10" y="6" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="17" rx="1"/></svg></div>
           <h3>Analytics Avanzati</h3>
           <p>Dashboard interattiva per forza, volume, composizione corporea e trend nel tempo. I dati che contano davvero per crescere.</p>
           <div class="feat-tag">Data &amp; Analytics</div>
         </div>
-        <div class="feat-card">
-          <div class="feat-icon">&#128564;</div>
+        <div class="feat-card" data-tilt>
+          <div class="feat-card-top-edge" aria-hidden="true"></div>
+          <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div>
           <h3>Recovery Optimizer</h3>
           <p>Monitora recupero muscolare e ottimizza i rest day. L&rsquo;AI riduce o aumenta il carico in base al tuo stato fisico attuale.</p>
           <div class="feat-tag">Recovery</div>
         </div>
-        <div class="feat-card">
-          <div class="feat-icon">&#128272;</div>
+        <div class="feat-card" data-tilt>
+          <div class="feat-card-top-edge" aria-hidden="true"></div>
+          <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <h3>Privacy First</h3>
           <p>I tuoi dati restano tuoi. Nessuna vendita a terzi, nessun tracking pubblicitario. La tua salute &egrave; strettamente privata.</p>
           <div class="feat-tag">Sicurezza</div>
@@ -161,18 +191,22 @@
     <div class="container">
       <div class="stats-grid" data-stagger="0.1">
         <div class="stat">
+          <div class="stat-liquid-wrap" aria-hidden="true"><div class="xp-bar"><div class="xp-liquid"></div></div></div>
           <div class="stat-val" data-count="10" data-suffix="K+">0</div>
           <div class="stat-lbl">Atleti Attivi</div>
         </div>
         <div class="stat">
+          <div class="stat-liquid-wrap" aria-hidden="true"><div class="xp-bar"><div class="xp-liquid"></div></div></div>
           <div class="stat-val" data-count="250" data-suffix="K+">0</div>
           <div class="stat-lbl">Allenamenti Completati</div>
         </div>
         <div class="stat">
+          <div class="stat-liquid-wrap" aria-hidden="true"><div class="xp-bar"><div class="xp-liquid"></div></div></div>
           <div class="stat-val" data-count="98" data-suffix="%">0</div>
           <div class="stat-lbl">Soddisfazione Utenti</div>
         </div>
         <div class="stat">
+          <div class="stat-liquid-wrap" aria-hidden="true"><div class="xp-bar"><div class="xp-liquid"></div></div></div>
           <div class="stat-val" data-count="45" data-suffix="+">0</div>
           <div class="stat-lbl">Paesi nel Mondo</div>
         </div>
@@ -180,17 +214,20 @@
     </div>
   </section>
 
+  <div class="section-sep" aria-hidden="true"></div>
+
   <!-- HOW IT WORKS -->
   <section id="how">
     <div class="container">
       <div class="section-head">
         <div class="tag" data-reveal>Come funziona</div>
-        <h2 data-reveal>Dal profilo alla trasformazione</h2>
+        <h2 data-split>Dal profilo alla trasformazione</h2>
       </div>
       <div class="steps">
         <div class="step" data-reveal>
           <div class="step-n">01</div>
           <div class="step-body">
+            <div class="step-line" aria-hidden="true"></div>
             <h3>Crea il tuo profilo</h3>
             <p>Inserisci obiettivi, livello fitness, disponibilit&agrave; settimanale e attrezzatura. Bastano 2 minuti per iniziare.</p>
           </div>
@@ -198,6 +235,7 @@
         <div class="step" data-reveal>
           <div class="step-n">02</div>
           <div class="step-body">
+            <div class="step-line" aria-hidden="true"></div>
             <h3>L&rsquo;AI costruisce il tuo piano</h3>
             <p>AURA genera una scheda di allenamento e un piano alimentare completamente personalizzati. Nessun template &mdash; tutto costruito su di te.</p>
           </div>
@@ -205,6 +243,7 @@
         <div class="step" data-reveal>
           <div class="step-n">03</div>
           <div class="step-body">
+            <div class="step-line" aria-hidden="true"></div>
             <h3>Allenati con guida live</h3>
             <p>Ogni sessione &egrave; guidata in tempo reale. Timer, serie, carichi, riposi &mdash; tutto automatizzato. Pensa solo ad allenarti.</p>
           </div>
@@ -212,6 +251,7 @@
         <div class="step" data-reveal>
           <div class="step-n">04</div>
           <div class="step-body">
+            <div class="step-line" aria-hidden="true"></div>
             <h3>Evolvi ogni settimana</h3>
             <p>Il sistema analizza performance e progressi, aggiornando continuamente il piano per massimizzare i risultati nel tempo.</p>
           </div>
@@ -220,16 +260,24 @@
     </div>
   </section>
 
+  <div class="section-sep" aria-hidden="true"></div>
+
   <!-- TESTIMONIALS -->
   <section id="testimonials">
     <div class="container">
       <div class="section-head">
         <div class="tag" data-reveal>Testimonianze</div>
-        <h2 data-reveal>Risultati reali,<br>persone reali</h2>
+        <h2 data-split>Risultati reali, persone reali</h2>
       </div>
       <div class="testi-row" data-stagger="0.12">
         <div class="testi">
-          <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testi-stars" aria-label="5 stelle">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
           <p>&ldquo;In 3 mesi con AURA ho guadagnato pi&ugrave; massa muscolare che in un anno con un PT tradizionale. Il coach AI &egrave; incredibilmente preciso.&rdquo;</p>
           <div class="testi-who">
             <div class="testi-av">M</div>
@@ -237,7 +285,13 @@
           </div>
         </div>
         <div class="testi testi--big">
-          <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testi-stars" aria-label="5 stelle">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
           <p>&ldquo;Finalmente un&rsquo;app che capisce davvero cosa vuoi. Ho perso 8kg in 12 settimane seguendo il piano nutrizionale generato dall&rsquo;AI. Risultato incredibile.&rdquo;</p>
           <div class="testi-who">
             <div class="testi-av">S</div>
@@ -245,7 +299,13 @@
           </div>
         </div>
         <div class="testi">
-          <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testi-stars" aria-label="5 stelle">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
           <p>&ldquo;Uso AURA da 6 mesi. Il recovery optimizer mi ha cambiato la vita &mdash; niente pi&ugrave; sovrallenamento, progressi costanti ogni settimana.&rdquo;</p>
           <div class="testi-who">
             <div class="testi-av">L</div>
@@ -256,21 +316,34 @@
     </div>
   </section>
 
-  <!-- MANIFESTO -->
+  <div class="section-sep" aria-hidden="true"></div>
+
+  <!-- MANIFESTO (pinned, line-by-line reveal) -->
   <section id="manifesto">
+    <div class="flame-wrap" aria-hidden="true">
+      <svg class="flame-svg" viewBox="0 0 24 32" fill="none">
+        <path d="M12 2C8 6 6 10 8 16C6 14 4 16 6 20C8 18 10 20 12 18C14 20 16 18 18 20C20 16 18 14 16 16C18 10 16 6 12 2Z" fill="url(#fg)"/>
+        <defs><linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="45%" stop-color="#f97316"/><stop offset="100%" stop-color="#dc2626"/></linearGradient></defs>
+      </svg>
+    </div>
     <div class="container">
       <div class="manifesto-wrap">
         <div class="tag tag--dim" data-reveal>Il Manifesto</div>
-        <blockquote class="manifesto-q" data-reveal>
-          Non crediamo nei piani generici.<br>
-          Non crediamo nel fitness uguale per tutti.<br>
-          <br>
-          Crediamo in un&rsquo;intelligenza che ti conosce,<br>
-          che cresce con te ogni settimana,<br>
-          che non si stanca, non si distrae, non ti giudica.<br>
-          <br>
-          <em>Questo &egrave; AURA.</em>
+        <blockquote class="manifesto-q">
+          <span class="m-line">Non crediamo nei piani generici.</span>
+          <span class="m-line">Non crediamo nel fitness uguale per tutti.</span>
+          <span class="m-line m-line--space">&nbsp;</span>
+          <span class="m-line">Crediamo in un&rsquo;intelligenza che ti conosce,</span>
+          <span class="m-line">che cresce con te ogni settimana,</span>
+          <span class="m-line">che non si stanca, non si distrae, non ti giudica.</span>
+          <span class="m-line m-line--space">&nbsp;</span>
+          <em class="m-line m-line--em">Questo &egrave; AURA.</em>
         </blockquote>
+        <div class="jarvis-rings-wrap" aria-hidden="true">
+          <div class="jarvis-ring jr1"></div>
+          <div class="jarvis-ring jr2"></div>
+          <div class="jarvis-ring jr3"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -280,16 +353,16 @@
     <div class="container">
       <div class="cta-wrap">
         <div class="tag" data-reveal>Inizia oggi</div>
-        <h2 data-reveal>Il tuo piano &egrave; gi&agrave; pronto.<br>Manca solo tu.</h2>
+        <h2 data-split>Il tuo piano &egrave; gi&agrave; pronto. Manca solo tu.</h2>
         <p data-reveal>Gratuito per sempre. Nessuna carta di credito richiesta.</p>
         <div class="cta-btns" data-reveal>
-          <a href="#" class="btn-fill">Crea il tuo profilo &rarr;</a>
+          <a href="#" class="btn-fill magnetic cta-shine-btn">Crea il tuo profilo &rarr;</a>
           <a href="#features" class="btn-ghost">Scopri le funzionalit&agrave;</a>
         </div>
         <div class="cta-badges" data-reveal>
-          <span>&#10003; Sempre gratuito</span>
-          <span>&#10003; Nessuna pubblicit&agrave;</span>
-          <span>&#10003; Privacy garantita</span>
+          <span class="badge-pop-item">&#10003; Sempre gratuito</span>
+          <span class="badge-pop-item">&#10003; Nessuna pubblicit&agrave;</span>
+          <span class="badge-pop-item">&#10003; Privacy garantita</span>
         </div>
       </div>
     </div>
@@ -300,7 +373,7 @@
     <div class="container">
       <div class="footer-top">
         <div class="footer-brand" data-reveal>
-          <span class="logo">AURA</span>
+          <span class="logo shimmer-text">AURA</span>
           <p>Il tuo AI Coach personale.<br>Allenati come non hai mai fatto.</p>
         </div>
         <div class="footer-nav">
