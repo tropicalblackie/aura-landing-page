@@ -1,0 +1,153 @@
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: 80px;
+  padding: 2rem;
+}
+
+.hero__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  z-index: 0;
+}
+
+.hero__circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.hero__circle-1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  right: -100px;
+  border: 2px solid #00d9a3;
+  animation: rotate 20s linear infinite;
+}
+
+.hero__circle-2 {
+  width: 300px;
+  height: 300px;
+  bottom: -50px;
+  left: -50px;
+  border: 2px solid #00d9a3;
+  animation: rotate 25s linear infinite reverse;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.hero__content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 900px;
+  animation: fadeInUp 1s ease-out 0.8s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero__letters {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.hero__letter {
+  font-size: clamp(2rem, 8vw, 5rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #00d9a3;
+  text-transform: uppercase;
+}
+
+.hero__title {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-weight: 700;
+  margin: 1.5rem 0 1rem;
+  line-height: 1.2;
+  color: #ffffff;
+}
+
+.hero__subtitle {
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
+  color: #d1d1d1;
+  margin: 1.5rem 0 2rem;
+  line-height: 1.6;
+}
+
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.2rem 2.5rem;
+  background: #00d9a3;
+  color: #0a0a0a;
+  text-decoration: none;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: #00a876;
+  z-index: -1;
+  transition: left 0.3s ease;
+}
+
+.hero__cta:hover::before {
+  left: 0;
+}
+
+.hero__cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 217, 163, 0.3);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 1.5rem;
+  }
+
+  .hero__letters {
+    gap: 0.5rem;
+  }
+
+  .hero__letter {
+    font-size: clamp(1.5rem, 10vw, 3rem);
+  }
+}
