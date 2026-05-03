@@ -1,16 +1,119 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AURA — Train Smarter</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="AURA — Il tuo coach AI personale. Allenati come non hai mai fatto." />
+  <title>AURA — AI Fitness Coach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Header -->
+  <header id="header">
+    <a href="#" class="logo" data-anim>AURA</a>
+    <nav data-anim>
+      <a href="https://tropicalblackie.github.io/AURAMOBILE/" target="_blank">Apri App</a>
+    </nav>
+  </header>
+
+  <!-- Background rings -->
+  <div id="bg-rings" aria-hidden="true">
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-3"></div>
+    <div class="ring ring-4"></div>
+  </div>
+
+  <!-- Three.js canvas -->
+  <canvas id="gl"></canvas>
+
+  <!-- Hero figure layer -->
+  <div id="figure-layer" aria-hidden="true">
+    <div id="figure-glow"></div>
+    <svg id="figure-svg" viewBox="0 0 320 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Head -->
+      <ellipse cx="160" cy="60" rx="38" ry="42" fill="url(#bodyGrad)" opacity="0.95"/>
+      <!-- Neck -->
+      <rect x="149" y="98" width="22" height="22" rx="6" fill="url(#bodyGrad)" opacity="0.9"/>
+      <!-- Torso -->
+      <path d="M100 120 C100 115 120 108 160 108 C200 108 220 115 220 120 L230 260 C230 265 218 272 160 272 C102 272 90 265 90 260 Z" fill="url(#bodyGrad)" opacity="0.92"/>
+      <!-- Left arm -->
+      <path d="M100 130 C85 140 65 165 55 200 C48 225 50 250 58 265 C64 275 74 278 82 270 C88 260 88 240 90 215 C93 185 96 162 100 145 Z" fill="url(#bodyGrad)" opacity="0.88"/>
+      <!-- Left forearm -->
+      <path d="M58 265 C52 280 48 300 50 318 C52 330 60 335 68 328 C76 320 80 302 82 285 C84 272 82 270 58 265 Z" fill="url(#bodyGrad)" opacity="0.85"/>
+      <!-- Right arm -->
+      <path d="M220 130 C235 140 255 165 265 200 C272 225 270 250 262 265 C256 275 246 278 238 270 C232 260 232 240 230 215 C227 185 224 162 220 145 Z" fill="url(#bodyGrad)" opacity="0.88"/>
+      <!-- Right forearm -->
+      <path d="M262 265 C268 280 272 300 270 318 C268 330 260 335 252 328 C244 320 240 302 238 285 C236 272 238 270 262 265 Z" fill="url(#bodyGrad)" opacity="0.85"/>
+      <!-- Left thigh -->
+      <path d="M120 270 C108 280 98 310 95 345 C92 375 96 400 105 415 C112 426 124 428 133 420 C142 410 145 385 146 355 C148 320 146 290 140 272 Z" fill="url(#bodyGrad)" opacity="0.9"/>
+      <!-- Right thigh -->
+      <path d="M200 270 C212 280 222 310 225 345 C228 375 224 400 215 415 C208 426 196 428 187 420 C178 410 175 385 174 355 C172 320 174 290 180 272 Z" fill="url(#bodyGrad)" opacity="0.9"/>
+      <!-- Left shin -->
+      <path d="M105 415 C100 432 98 455 100 475 C102 490 110 498 120 496 C130 493 136 480 138 462 C140 445 136 428 133 420 Z" fill="url(#bodyGrad)" opacity="0.85"/>
+      <!-- Right shin -->
+      <path d="M215 415 C220 432 222 455 220 475 C218 490 210 498 200 496 C190 493 184 480 182 462 C180 445 184 428 187 420 Z" fill="url(#bodyGrad)" opacity="0.85"/>
+
+      <!-- Muscle highlight lines -->
+      <path d="M140 125 C142 160 143 200 142 240" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M180 125 C178 160 177 200 178 240" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M120 200 C135 195 160 192 185 195 C200 198 210 202 215 208" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+
+      <!-- Face features -->
+      <ellipse cx="148" cy="55" rx="5" ry="5.5" fill="rgba(0,0,0,0.5)"/>
+      <ellipse cx="172" cy="55" rx="5" ry="5.5" fill="rgba(0,0,0,0.5)"/>
+      <path d="M150 74 C155 79 165 79 170 74" stroke="rgba(0,0,0,0.5)" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+      <defs>
+        <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#c8b4f5"/>
+          <stop offset="50%" stop-color="#a78fe0"/>
+          <stop offset="100%" stop-color="#7b5ea7"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="8" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Title -->
+  <div id="title-block">
+    <h1 id="title">
+      <span class="title-line" data-line="0">AI FITNESS</span>
+      <span class="title-line title-outline" data-line="1">COACHING</span>
+    </h1>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="footer-left" data-anim>
+      <span>Coach AI Personalizzato</span>
+      <span>Schede su misura · Nutrizione · Progressi</span>
+    </div>
+    <div class="footer-cta" data-anim>
+      <a href="https://tropicalblackie.github.io/AURAMOBILE/" target="_blank" class="btn-launch" id="btnLaunch">
+        <span>Inizia Ora</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+    <div class="footer-right" data-anim>
+      <a href="https://tropicalblackie.github.io/AURAMOBILE/" target="_blank">Web App</a>
+      <a href="mailto:hello@aura.app">Contatti</a>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
 </html>
