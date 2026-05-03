@@ -441,83 +441,163 @@ function initTicker() {
 }
 
 /* ─────────────────────────────────────────
-   22. SCROLL ATHLETE — running figure scrubbed to scroll
+   22. SCROLL ATHLETE — biomechanics skeleton scrubbed to scroll
    ───────────────────────────────────────── */
 function initScrollAthlete() {
-  const el = document.getElementById('scroll-athlete');
-  if (!el) return;
+  const wrapper = document.getElementById('scroll-athlete');
+  const canvas  = document.getElementById('sa-canvas');
+  if (!wrapper || !canvas) return;
 
-  // Pivot each limb-group around its joint using SVG coordinate space
-  gsap.set('#sa-ar', { svgOrigin: '14 -66' });
-  gsap.set('#sa-al', { svgOrigin: '-14 -66' });
-  gsap.set('#sa-lr', { svgOrigin: '9 -38' });
-  gsap.set('#sa-ll', { svgOrigin: '-9 -38' });
+  const ctx = canvas.getContext('2d');
+  const W = 200, H = 420;
 
-  // 4 complete running strides mapped to full page scroll
-  const CYCLES = 4;
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: 'body',
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: 1.5
-    }
-  });
+  // Bones: [jointA, jointB, lineWidth, isOrange]
+  // Joint indices:
+  // 0=head 1=neck 2=spine 3=lshoulder 4=rshoulder
+  // 5=lelbow 6=relbow 7=lwrist 8=rwrist
+  // 9=lhip 10=rhip 11=lknee 12=rknee 13=lankle 14=rankle 15=ltoe 16=rtoe
+  const BONES = [
+    [0,  1,  3, false],
+    [1,  2,  5, false],
+    [2,  9,  4, false],
+    [2, 10,  4, false],
+    [1,  3,  4, false],
+    [1,  4,  4, false],
+    [3,  5,  6, false],
+    [5,  7,  5, false],
+    [4,  6,  6, false],
+    [6,  8,  5, false],
+    [9, 11,  8, true ],
+    [11,13,  7, true ],
+    [13,15,  5, true ],
+    [10,12,  8, true ],
+    [12,14,  7, true ],
+    [14,16,  5, true ],
+  ];
 
-  for (let i = 0; i < CYCLES; i++) {
-    const t = i; // absolute timeline position (0,1,2,3)
+  // 4 running poses × 17 joints [x, y] on 200×420 canvas
+  // Pose 0: right foot contact / left arm forward
+  // Pose 1: float (body high, legs spread)
+  // Pose 2: left foot contact / right arm forward
+  // Pose 3: float mirrored
+  const POSES = [
+    // 0 — right foot contact, left arm swings forward
+    [[100,26],[100,52],[100,127],[63,64],[138,67],[37,89],[159,120],[28,61],[157,160],[80,162],[120,162],[90,217],[129,260],[95,170],[128,342],[98,158],[132,360]],
+    // 1 — float phase (body up, scissor legs)
+    [[100,20],[100,46],[100,120],[64,59],[137,59],[43,90],[157,106],[36,66],[154,146],[79,155],[121,155],[84,224],[125,260],[89,153],[126,342],[91,142],[130,360]],
+    // 2 — left foot contact, right arm swings forward (mirror of 0)
+    [[100,26],[100,52],[100,127],[62,67],[137,64],[41,120],[163,89],[43,161],[172,61],[80,162],[120,162],[71,260],[110,217],[74,342],[96,170],[70,360],[100,158]],
+    // 3 — float mirrored
+    [[100,20],[100,46],[100,120],[63,59],[136,59],[46,106],[157,90],[49,146],[163,66],[79,155],[121,155],[75,260],[116,224],[77,342],[113,153],[73,360],[115,142]],
+  ];
 
-    // Pose A — right foot forward
-    tl.to('#sa-ar', { rotation:  30, ease: 'sine.inOut', duration: 0.25 }, t)
-      .to('#sa-al', { rotation: -30, ease: 'sine.inOut', duration: 0.25 }, t)
-      .to('#sa-lr', { rotation: -33, ease: 'sine.inOut', duration: 0.25 }, t)
-      .to('#sa-ll', { rotation:  33, ease: 'sine.inOut', duration: 0.25 }, t)
-    // Pose B — neutral
-      .to('#sa-ar', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.25)
-      .to('#sa-al', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.25)
-      .to('#sa-lr', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.25)
-      .to('#sa-ll', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.25)
-    // Pose C — left foot forward
-      .to('#sa-ar', { rotation: -30, ease: 'sine.inOut', duration: 0.25 }, t + 0.5)
-      .to('#sa-al', { rotation:  30, ease: 'sine.inOut', duration: 0.25 }, t + 0.5)
-      .to('#sa-lr', { rotation:  33, ease: 'sine.inOut', duration: 0.25 }, t + 0.5)
-      .to('#sa-ll', { rotation: -33, ease: 'sine.inOut', duration: 0.25 }, t + 0.5)
-    // Pose D — neutral
-      .to('#sa-ar', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.75)
-      .to('#sa-al', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.75)
-      .to('#sa-lr', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.75)
-      .to('#sa-ll', { rotation:   0, ease: 'sine.inOut', duration: 0.25 }, t + 0.75);
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const easeInOut = t => t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
+
+  function getPose(prog) {
+    // 5 full cycles across the entire page = 20 pose transitions
+    const total = prog * 20;
+    const p1 = Math.floor(total) % 4;
+    const p2 = (p1 + 1) % 4;
+    const t  = easeInOut(total - Math.floor(total));
+    return POSES[p1].map((j, i) => [
+      lerp(j[0], POSES[p2][i][0], t),
+      lerp(j[1], POSES[p2][i][1], t)
+    ]);
   }
 
-  // Subtle body bounce: rises on each stride, falls on impact
-  const bounceTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: 'body',
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: 1.5
+  function draw(joints) {
+    ctx.clearRect(0, 0, W, H);
+
+    // Ground shadow ellipse
+    const [lax, lay] = joints[13];
+    const [rax, ray] = joints[14];
+    const groundY = Math.max(lay, ray) + 16;
+    ctx.beginPath();
+    ctx.ellipse(100, groundY, 28, 5, 0, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(249,115,22,0.10)';
+    ctx.fill();
+
+    // Draw bones
+    for (const [a, b, lw, isOrange] of BONES) {
+      const [ax, ay] = joints[a];
+      const [bx, by] = joints[b];
+      ctx.beginPath();
+      ctx.moveTo(ax, ay);
+      ctx.lineTo(bx, by);
+      ctx.lineWidth = lw;
+      ctx.lineCap = 'round';
+      if (isOrange) {
+        ctx.strokeStyle = 'rgba(249,115,22,0.92)';
+        ctx.shadowColor  = '#f97316';
+        ctx.shadowBlur   = 16;
+      } else {
+        ctx.strokeStyle = 'rgba(210,225,245,0.68)';
+        ctx.shadowColor  = 'rgba(210,225,245,0.3)';
+        ctx.shadowBlur   = 8;
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
     }
-  });
-  for (let i = 0; i < CYCLES * 2; i++) {
-    const t = i * 0.5;
-    bounceTl
-      .to('#sa-svg', { y: -5, ease: 'sine.inOut', duration: 0.25 }, t)
-      .to('#sa-svg', { y:  0, ease: 'sine.inOut', duration: 0.25 }, t + 0.25);
+
+    // Head
+    const [hx, hy] = joints[0];
+    ctx.beginPath();
+    ctx.arc(hx, hy, 18, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(210,225,245,0.75)';
+    ctx.lineWidth   = 3;
+    ctx.shadowColor = 'rgba(210,225,245,0.28)';
+    ctx.shadowBlur  = 10;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // Orange dots: hips, knees, ankles
+    for (const i of [9,10,11,12,13,14]) {
+      const [jx, jy] = joints[i];
+      const r = (i === 9 || i === 10) ? 8 : (i === 11 || i === 12) ? 7 : 6;
+      ctx.beginPath();
+      ctx.arc(jx, jy, r, 0, Math.PI * 2);
+      ctx.fillStyle   = '#f97316';
+      ctx.shadowColor = '#f97316';
+      ctx.shadowBlur  = 20;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    // Small white dots: shoulders, elbows, wrists
+    for (const i of [3,4,5,6,7,8]) {
+      const [jx, jy] = joints[i];
+      ctx.beginPath();
+      ctx.arc(jx, jy, 4, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(210,225,245,0.52)';
+      ctx.fill();
+    }
   }
 
-  // Fade in when #about scrolls into view, hide on hero and footer
+  let scrollProg = 0;
+  ScrollTrigger.create({
+    trigger: 'body',
+    start: 'top top',
+    end: 'bottom bottom',
+    onUpdate: self => { scrollProg = self.progress; }
+  });
   ScrollTrigger.create({
     trigger: '#about',
     start: 'top 80%',
-    onEnter:     () => gsap.to(el, { opacity: 1, duration: 0.8, ease: 'power2.out' }),
-    onLeaveBack: () => gsap.to(el, { opacity: 0, duration: 0.5 })
+    onEnter:     () => gsap.to(wrapper, { opacity: 1, duration: 0.8, ease: 'power2.out' }),
+    onLeaveBack: () => gsap.to(wrapper, { opacity: 0, duration: 0.5 })
   });
   ScrollTrigger.create({
     trigger: 'footer',
     start: 'top 85%',
-    onEnter:     () => gsap.to(el, { opacity: 0, duration: 0.6 }),
-    onLeaveBack: () => gsap.to(el, { opacity: 1, duration: 0.4 })
+    onEnter:     () => gsap.to(wrapper, { opacity: 0, duration: 0.6 }),
+    onLeaveBack: () => gsap.to(wrapper, { opacity: 1, duration: 0.4 })
   });
+
+  (function tick() {
+    draw(getPose(scrollProg));
+    requestAnimationFrame(tick);
+  })();
 }
 
 /* ─────────────────────────────────────────
